@@ -10,7 +10,9 @@ bapberShop-API-TARgv21 an application that stores data about client (name, conta
 ## How to setup and run the project
 1. Clon repository
 2. Open terminal in project folder
-3. Create file .env with DB_NAME, DB_PASS, DB_PORT, DB_HOST and DB_USER
-4. Install node: npm i
-5. Run the project: node .
+3. Run the command: npm i express
+4. Run the command: npm dotenv
+5. Install node: npm i
+6. Create file .env with DB_NAME, DB_PASS, DB_PORT, DB_HOST and DB_USER
+7. Run the project: node .
 
