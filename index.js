@@ -6,7 +6,7 @@ const port = process.env.APP_PORT
 const swaggerUi = require("swagger-ui-express")
 const swaggerDocument = require("./docs/swagger.json");
 
-app.use("./docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 const pool = mariadb.createPool({
