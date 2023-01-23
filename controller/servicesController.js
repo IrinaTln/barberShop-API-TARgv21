@@ -1,12 +1,12 @@
-app.get("/services", async (req, res) =>{
-    let conn
-    try{
-        conn = await pool.getConnection()
-        const rows = await conn.query("SELECT id_service, ServiceName FROM services")
-        res.send(JSON.stringify(rows))
-    }catch (error) {
-        console.log(error)
-    } finally{
-        conn.end()
+const { db }= require('../db');
+const Services =db.services
+
+exports.getAll = async (req, res) =>{
+const services = await Services.findAll({attributes:["id_service", "ServiceName"]})
+if (services.length == 0){
+    res.send({"message":"No services exist"})
+} else {
+    res.send(JSON.stringify(services))
     }
-})
+
+}
