@@ -17,7 +17,7 @@ const pool = mariadb.createPool({
     connectionLimit: 5
 })
 
-app.get("/customers", async (rec, res) =>{
+app.get("/customers", async (req, res) =>{
     let conn
     try{
         conn = await pool.getConnection()
@@ -30,7 +30,7 @@ app.get("/customers", async (rec, res) =>{
     }
 })
 
-app.get("/services", async (rec, res) =>{
+app.get("/services", async (req, res) =>{
     let conn
     try{
         conn = await pool.getConnection()
