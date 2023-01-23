@@ -17,8 +17,7 @@ const pool = mariadb.createPool({
     connectionLimit: 5
 })
 
-
-app.get("/customers", async (rec, res) =>{
+app.get("/customers", async (req, res) =>{
     let conn
     try{
         conn = await pool.getConnection()
@@ -27,6 +26,19 @@ app.get("/customers", async (rec, res) =>{
     } catch (error) {
         console.log(error)
     }finally{
+        conn.end()
+    }
+})
+
+app.get("/services", async (req, res) =>{
+    let conn
+    try{
+        conn = await pool.getConnection()
+        const rows = await conn.query("SELECT id_service, ServiceName FROM services")
+        res.send(JSON.stringify(rows))
+    }catch (error) {
+        console.log(error)
+    } finally{
         conn.end()
     }
 })
