@@ -7,8 +7,16 @@ module.exports = (sequelize, Sequelize) => {
         },
         firstName: {
             type: Sequelize.STRING,
+            allowNull: false
         },
         lastName: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        phone: {
+            type: Sequelize.STRING,
+        },
+        mail: {
             type: Sequelize.STRING,
         }
     })
