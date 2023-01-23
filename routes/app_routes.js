@@ -11,7 +11,7 @@ module.exports = (app) => {
         .put(customersController.updateById)  //Update
         .delete(customersController.deleteById)  //Delete*/
 
-        app.route('/services')
+    app.route('/services')
         .get(servicesController.getAll)
         /*.post(servicesController.createNew) //Create
     app.route("/services/:id_service")
