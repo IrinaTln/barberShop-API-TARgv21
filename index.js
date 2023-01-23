@@ -44,7 +44,6 @@ app.get("/services", async (req, res) =>{
 })
 
 
-
 app.listen(port, () => {
     console.log(`API up at: http://localhost:${port}`)
 })
