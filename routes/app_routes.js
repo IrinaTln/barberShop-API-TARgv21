@@ -1,20 +1,21 @@
 const customersController = require('../controller/customersController.js');
-const servicesController = require('../controller/servicesController.js');
+//const servicesController = require('../controller/servicesController.js');
 
 module.exports = (app) => {
     app.route('/customers')
         .get(customersController.getAll)
-        .post(customersController.createNew)
+        /*
+        .post(customersController.createNew) //Create
     app.route("/customers/:id_customer")
-        .get(customersController.getById)
-        .put(customersController.updateById)
-        .delete(customersController.deleteById)
+        .get(customersController.getById) //Read
+        .put(customersController.updateById)  //Update
+        .delete(customersController.deleteById)  //Delete
 
         app.route('/services')
         .get(servicesController.getAll)
-        .post(serviceController.createNew)
+        .post(servicesController.createNew) //Create
     app.route("/services/:id_service")
-        .get(servicesController.getById)
-        .put(servicesController.updateById)
-        .delete(servicesController.deleteById)
+        .get(servicesController.getById)  //Read
+        .put(servicesController.updateById)  //Update
+        .delete(servicesController.deleteById)  //Delete */
 }
