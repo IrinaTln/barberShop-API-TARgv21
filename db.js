@@ -16,4 +16,7 @@ db.sequelize = sequelize
 
 db.customers = require("./models/Customer")(sequelize, Sequelize)
 
+//await sequelize.sync({force: true}) //Erase all and recreate
+async () => await sequelize.sync({alter: true}) //Erase all and recreate
+
 module.exports = db
