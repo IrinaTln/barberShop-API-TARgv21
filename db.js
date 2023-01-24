@@ -16,6 +16,9 @@ db.sequelize = sequelize
 
 db.customers = require("./models/Customer")(sequelize, Sequelize)
 db.services = require("./models/Service")(sequelize, Sequelize)
+db.barbers = require("./models/Barber")(sequelize, Sequelize)
+db.bookings = require("./models/Booking")(sequelize, Sequelize)
+
 
 async function Sync() {
     console.log("Begin sync");

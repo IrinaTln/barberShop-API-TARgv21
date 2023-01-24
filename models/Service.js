@@ -5,11 +5,8 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        ServiceName:{
+        serviceName:{
             type: Sequelize.STRING,
-        },
-        Price:{
-            type: Sequelize.INTEGER,
         }
     })
     
