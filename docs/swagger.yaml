@@ -60,6 +60,41 @@ paths:
                     description: Returns the list of all customers
             summary: Get the list of all customers
             description: Returns the list of all customers in API
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Customer'
+                required: true
+            tags:
+                - customers
+            responses:
+                '201':
+                    headers:
+                        location:
+                            schema:
+                                type: string
+                            examples:
+                                Location of created customer:
+                                    value: 'https://server:port/customers/{id_customer}'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                    description: Customer was added
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                Invalid data:
+                                    value:
+                                        error: 'Invalid input, missing required parametrs'
+                    description: Invalid data supplied
+            summary: Add new customer
+            description: Add new customer with all details
     /barbers:
         get:
             tags:
@@ -160,3 +195,30 @@ components:
         Error:
             description: ''
             type: object
+        Customer:
+            title: Root Type for Customer
+            description: Customer details
+            required:
+                - firstName
+                - lastName
+                - mail
+                - phone
+            type: object
+            properties:
+                id:
+                    format: int32
+                    type: integer
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                phone:
+                    type: string
+                mail:
+                    type: string
+            example:
+                id: 1
+                firstName: John
+                lastName: Cameron
+                phone: '+3725478961'
+                mail: cameron@gmail.com

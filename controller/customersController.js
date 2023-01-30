@@ -1,5 +1,7 @@
 const { request } = require('express');
 const { db }= require('../db');
+const { getBaseUrl } = require('./helpers');
+
 const Customers =db.customers
 
 exports.getAll = async (req, res) =>{
@@ -11,8 +13,27 @@ exports.getAll = async (req, res) =>{
     }
 }
 
-exports.createNew = async (req, res) =>{   
-    res.send({"message": "Not implemented yet"})
+exports.createNew = async (req, res) =>{
+    let customer
+
+    try{
+        customer = await Customers.create(req.body, 
+            {
+                logging:console.log, 
+                fields: ["firstName", "lastName", "phone", "mail"]
+            })
+    } catch (error) {
+        res.status(400).send({"error": error.errors.map((item) =>item.message)})
+        return
+    }
+
+    if(customer===null){
+        res.status(400).send({"error": "Invalid input, missing required params"})
+        return
+    }
+    res.status(201)
+    .location(`${getBaseUrl(req)}/customers/${customer.id_customer}`)
+    .json(customer)   
 }
 
 exports.getById = async (req, res) =>{

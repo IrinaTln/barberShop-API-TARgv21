@@ -15,9 +15,11 @@ module.exports = (sequelize, Sequelize) => {
         },
         phone: {
             type: Sequelize.STRING,
+            allowNull: false
         },
         mail: {
             type: Sequelize.STRING,
+            allowNull: false
         }
     })
 

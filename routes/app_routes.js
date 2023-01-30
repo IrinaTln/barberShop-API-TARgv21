@@ -6,7 +6,7 @@ const bookingsController = require('../controller/bookingsController.js');
 module.exports = (app) => {
     app.route('/customers')
         .get(customersController.getAll)
-        /*.post(customersController.createNew) //Create */
+        .post(customersController.createNew) //Create */
         app.route("/customers/:id_customer")
         .get(customersController.getById) //Read
         .put(customersController.updateById)  //Update
