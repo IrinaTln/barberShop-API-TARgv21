@@ -1,4 +1,4 @@
-/*module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, Sequelize) => {
     const Booking = sequelize.define("booking", {
         id_booking: {
             type: Sequelize.INTEGER,
@@ -25,9 +25,9 @@
         
      return Booking
 
-}*/
+}
 
-module.exports = (sequelize, Sequelize) => {
+/*module.exports = (sequelize, Sequelize) => {
     const Booking = sequelize.define("booking", {
         id_booking: {
             type: Sequelize.INTEGER,
@@ -49,13 +49,14 @@ module.exports = (sequelize, Sequelize) => {
         id_barber: {
             type: Sequelize.INTEGER,
             allowNull: false
-        }
+        }   
     });
-    return Booking;
+  
+    Booking.belongsTo(Customer, { foreignKey: 'id_customer', as: 'firstName' });
+    Booking.belongsTo(Service, { foreignKey: 'id_service', as: 'serviceName' }); 
+    Booking.belongsTo(Barber, { foreignKey: 'id_barber', as: 'barberName' });
 
-  Booking.belongsTo(customers, { foreignKey: 'id_customer', as: 'firstName' });
-  Booking.belongsTo(services, { foreignKey: 'id_service', as: 'serviceName' }); 
-  Booking.belongsTo(barbers, { foreignKey: 'id_barber', as: 'barberName' });
-}
+    return Booking;
+}*/
   
   
