@@ -116,6 +116,8 @@ paths:
         summary: Get customer details
         description: Get all the details of the customer with given id.
         get:
+            tags:
+                - customers
             responses:
                 '200':
                     content:
