@@ -98,7 +98,7 @@ paths:
     /barbers:
         get:
             tags:
-                - '-barbers'
+                - barbers
             responses:
                 '200':
                     content:
@@ -127,7 +127,7 @@ paths:
     /bookings:
         get:
             tags:
-                - '-bookings'
+                - 'bookings'
             responses:
                 '200':
                     content:
