@@ -1,0 +1,160 @@
+openapi: 3.0.2
+info:
+    title: barberShop-API-TARgv21
+    version: 1.0.0
+    description: >-
+        ### This is a Swagger UI for our BarberShop API  \n\n### Error handling\nErrors are presented using
+        the HTTP status codes 400-599. The response include a more detailed explanation about the error in the
+        body.\n\n```\n{\n  \"error\": \"Cleartext explanation of the error that occurred\"\n}\n```\n\n###
+        Generic API errors\nThese error responses can be returned by any of the described endpoints.\n\n| HTTP
+        status  |  Description |\n|---|---|\n| 400| Bad input parameters or invalid request. More information
+        can be found in the response body.\n| 401| The consumer does not have access to the requested resource
+        or the provided token is not valid.\n| 404| The requested resource can not be found or the user does
+        not have access to the resource.\n| 5XX| A server error has occurred while processing the request."
+           
+paths:
+    /services:
+        get:
+            tags:
+                - services
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of sevices:
+                                    value:
+                                        - Hair-cut
+                                        - Beard-trimming
+                                        - Hair-cut + beard+trimming
+                    description: Returns the list of services
+            summary: Get the list of all services
+            description: Reterns the list of all services in API
+    /customers:
+        get:
+            tags:
+                - customers
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of customers:
+                                    value:
+                                        -
+                                            id_customer: 1
+                                            firstName: 'James '
+                                            lastName: Cameron
+                                        -
+                                            id_customer: 2
+                                            firstName: John
+                                            lastName: Travolta
+                    description: Returns the list of all customers
+            summary: Get the list of all customers
+            description: Returns the list of all customers in API
+    /barbers:
+        get:
+            tags:
+                - '-barbers'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                barbers:
+                                    value:
+                                        -
+                                            id_barber: 1
+                                            barberName: Valentino Belucchi
+                                        -
+                                            id_barber: 2
+                                            barberName: Marko Tasane
+                                        -
+                                            id_barber: 3
+                                            barberName: Gretta Tunberg
+                                        -
+                                            id_barber: 4
+                                            barberName: Pamela Anderson
+                    description: Returns the list of all barbers in API
+            summary: Get the all list of barbers
+    /bookings:
+        get:
+            tags:
+                - '-bookings'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                bookings:
+                                    value:
+                                        -
+                                            id_booking: 1
+                                            bookingTime: '2023-01-31T10:00:00.000Z'
+                                            id_customer: 1
+                                            id_service: 1
+                                            id_barber: 2
+                    description: Returns te list of all bokings in API
+            summary: Get the list of all bookings
+    '/customers/{id}':
+        summary: Get customer details
+        description: Get all the details of the customer with given id.
+        get:
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Custumer details:
+                                    value:
+                                        id_customer: 2
+                                        firstName: John
+                                        lastName: Travolta
+                                        phone: '+37256215857'
+                                        mail: travolta@gmail.com
+                    description: Customer was found and the details are returned
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                No found:
+                                    value:
+                                        error: Customer with given id \w+ was not found.
+                    description: Customer with given id does not exist
+            summary: Get details of the customer given ID
+            description: Return all the details of the customer
+        parameters:
+            -
+                name: id
+                description: Id of the Customer to find the details
+                schema:
+                    type: integer
+                in: path
+                required: true
+components:
+    schemas:
+        Error:
+            description: ''
+            type: object

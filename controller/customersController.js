@@ -16,8 +16,8 @@ exports.createNew = async (req, res) =>{
 }
 
 exports.getById = async (req, res) =>{
-    const customer = await Customers.findByPk(req.params.id_customer)
-    if(customer === null){
+    const customer = await Customers.findByPk(req.params.id_customer, {logging: console.Log})
+        if(customer === null){
         res.status(404).send({"error": "No customer found"})
     } else {
         res.send(customer)
