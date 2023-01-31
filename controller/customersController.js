@@ -29,7 +29,6 @@ exports.createNew = async (req, res) =>{
             console.log("CustomersCreate", error) 
             res.status(500).send({"error": "Somtheng went wrong on our side. Sorry :("})          
         }
-
         return
     }
 

@@ -95,6 +95,156 @@ paths:
                     description: Invalid data supplied
             summary: Add new customer
             description: Add new customer with all details
+    '/customers/{id}':
+        summary: Get customer details
+        description: Get all the details of the customer with given id.
+        get:
+            tags:
+                - customers
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Custumer details:
+                                    value:
+                                        id_customer: 2
+                                        firstName: John
+                                        lastName: Travolta
+                                        phone: '+37256215857'
+                                        mail: travolta@gmail.com
+                    description: Customer was found and the details are returned.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                No found:
+                                    value:
+                                        error: Customer with given id \w+ was not found.
+                    description: Customer with given id does not exist.
+            summary: Get details of the customer given ID
+            description: Return all the details of the customer.
+        parameters:
+            -
+                name: id
+                description: Id of the Customer to find the details.
+                schema:
+                    type: integer
+                in: path
+                required: true
+    '/services/{id}':
+        summary: Get service details
+        description: Get all the details of the service with given id.
+        get:
+            tags:
+                - services
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Service details:
+                                    value:
+                                        id_service: 2
+                                        serviceName: Beard trimming
+                                        servicePrice: 20
+                    description: Service was found and the details are returned.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                Not found:
+                                    value:
+                                        error: Service with given id \w+ was not found.
+                    description: Service with given id does not exist.
+            summary: Get details of the service given ID
+            description: Return all the details of the service.
+        parameters:
+            -
+                name: id
+                description: Id of the Service to find the details
+                schema:
+                    type: integer
+                in: path
+                required: true
+    /bookings:
+        get:
+            tags:
+                - bookings
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                bookings:
+                                    value:
+                                        -
+                                            id_booking: 1
+                                            bookingTime: '2023-01-31T10:00:00.000Z'
+                                            id_customer: 1
+                                            id_service: 1
+                                            id_barber: 2
+                    description: Returns te list of all bokings in API
+            summary: Get the list of all bookings
+    '/bookings/{id}':
+        summary: Get booking details
+        description: Get all the details of the booking with given id.
+        get:
+            tags:
+                - bookings
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Booking details:
+                                    value:
+                                        id_booking: 2
+                                        bookingTime: '2023-01-24T10:00:00.000Z'
+                                        id_customer: 2
+                                        id_service: 3
+                                        id_barber: 2
+                    description: Booking was found and the details are returned.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                Not found:
+                                    value:
+                                        error: Customer with given id \w+ was not found.
+                    description: Booking with given id does not exist.
+            summary: Get details of the booking given ID
+            description: Return all the details of the booking.
+        parameters:
+            -
+                name: id
+                description: Id of the Booking to find the details.
+                schema:
+                    type: integer
+                in: path
+                required: true
     /barbers:
         get:
             tags:
@@ -124,10 +274,12 @@ paths:
                                             barberName: Pamela Anderson
                     description: Returns the list of all barbers in API
             summary: Get the all list of barbers
-    /bookings:
+    '/barbers/{id}/':
+        summary: Get barber details
+        description: Get all the details of the barber with given id.
         get:
             tags:
-                - bookings
+                - barbers
             responses:
                 '200':
                     content:
@@ -137,55 +289,27 @@ paths:
                                 items:
                                     type: string
                             examples:
-                                bookings:
+                                Full detail of a given barber.:
                                     value:
-                                        -
-                                            id_booking: 1
-                                            bookingTime: '2023-01-31T10:00:00.000Z'
-                                            id_customer: 1
-                                            id_service: 1
-                                            id_barber: 2
-                    description: Returns te list of all bokings in API
-            summary: Get the list of all bookings
-    '/customers/{id}':
-        summary: Get customer details
-        description: Get all the details of the customer with given id.
-        get:
-            tags:
-                - customers
-            responses:
-                '200':
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: string
-                            examples:
-                                Custumer details:
-                                    value:
-                                        id_customer: 2
-                                        firstName: John
-                                        lastName: Travolta
-                                        phone: '+37256215857'
-                                        mail: travolta@gmail.com
-                    description: Customer was found and the details are returned
+                                        id_barber: 3
+                                        barberName: John Travolte
+                    description: Barber was found and the details are returned
                 '404':
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                No found:
+                                Not Found:
                                     value:
-                                        error: Customer with given id \w+ was not found.
-                    description: Customer with given id does not exist
-            summary: Get details of the customer given ID
-            description: Return all the details of the customer
+                                        error: Barber with given id \w+ was not found.
+                    description: Barber with given id does not exist
+            summary: Get details of the barber given ID
+            description: Return all the details of the barber.
         parameters:
             -
                 name: id
-                description: Id of the Customer to find the details
+                description: Id of the Barber to find the details
                 schema:
                     type: integer
                 in: path
@@ -195,6 +319,8 @@ components:
         Error:
             description: ''
             type: object
+            example:
+                error: Error message.
         Customer:
             title: Root Type for Customer
             description: Customer details
@@ -222,3 +348,76 @@ components:
                 lastName: Cameron
                 phone: '+3725478961'
                 mail: cameron@gmail.com
+        Barber:
+            description: Barber details
+            required:
+                - barberName
+            type: object
+            properties:
+                id_barber:
+                    format: int32
+                    description: ''
+                    type: integer
+                barberName:
+                    description: ''
+                    type: string
+            example:
+                id_barber: 1
+                barberName: Marko Tasane
+        Service:
+            description: Service details
+            required:
+                - serviceName
+                - servicePrice
+            type: object
+            properties:
+                id_service:
+                    format: int32
+                    description: ''
+                    type: integer
+                serviceName:
+                    description: ''
+                    type: string
+                servicePrice:
+                    format: int32
+                    description: ''
+                    type: integer
+            example:
+                id_service: 2
+                serviceName: Beard trimming
+                servicePrice: 20
+        Booking:
+            description: Booking details
+            required:
+                - bookingTime
+                - id_customer
+                - id_service
+                - id_barber
+            type: object
+            properties:
+                id_booking:
+                    format: int32
+                    description: ''
+                    type: integer
+                bookingTime:
+                    format: date-time
+                    description: ''
+                    type: string
+                id_customer:
+                    format: int32
+                    description: ''
+                    type: integer
+                id_service:
+                    format: int32
+                    description: ''
+                    type: integer
+                id_barber:
+                    format: int32
+                    description: ''
+                    type: integer
+            example:
+                id_booking: 2
+                bookingTime: '2023-01-24T10:00:00.000Z'
+                id_customer: 2
+                id_service: 3
+                id_barber: 2

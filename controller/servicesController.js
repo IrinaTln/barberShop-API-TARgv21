@@ -10,8 +10,24 @@ if (services.length == 0){
     }
 }
 
-exports.createNew = async (req, res) =>{   
-    res.send({"message": "Not implemented yet"})
+exports.createNew = async (req, res) =>{
+    let service
+
+    try{
+        service = await Services.create(req.body, 
+            {
+                logging:console.log, 
+                fields: ["serviceName"]
+            })
+    } catch (error){
+        if (error instanceof db.Sequelize.ValidationError){
+            res.status(400).send({"error": error.errors.map((item)=> item.message)})        
+        }else{
+            console.log("ServicesCreate", error) 
+            res.status(500).send({"error": "Somtheng went wrong on our side. Sorry :("})          
+        }
+        return
+    }
 }
 
 exports.getById = async (req, res) =>{

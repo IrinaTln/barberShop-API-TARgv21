@@ -1,0 +1,30 @@
+/*module.exports =(sequelize, Sequelize, Barber, Service) =>{
+    const BarberService = sequelize.define("BarberService",{
+        id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        BarberID: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: Barber,
+                key: "id_barber"
+            }      
+        },
+        ServiceID: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: Service,
+                key: "id_service"
+            }
+        }
+
+    })
+
+    Barber.belongsToMany(Service, { through: BarberService})
+    Service.belongsToMany(Barber, { through: BarberService})
+
+    return BarberService
+}*/
+

@@ -1,16 +1,16 @@
 const { db }= require('../db');
 const Bookings = db.bookings
 
-exports.getAll = async (req, res) =>{
+/*exports.getAll = async (req, res) =>{
 const bookings = await Bookings.findAll({attributes:["id_booking", "bookingTime", "id_customer", "id_service", "id_barber"]})
 if (bookings.length == 0){
     res.send({"message":"No bookings exist"})
 } else {
     res.send(JSON.stringify(bookings))
     }
-}
+}*/
 
-/*exports.getAll = async (req, res) => {
+exports.getAll = async (req, res) => {
     try {
       const bookings = await Bookings.findAll({
         include: [
@@ -23,7 +23,7 @@ if (bookings.length == 0){
     } catch (error) {
       res.status(500).send({"message": "Ira, there is an error"});
     }
-  };*/
+  };
   
 
 exports.createNew = async (req, res) =>{   

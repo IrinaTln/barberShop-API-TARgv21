@@ -7,6 +7,11 @@ module.exports = (sequelize, Sequelize) => {
         },
         serviceName:{
             type: Sequelize.STRING,
+            allowNull: false
+        },
+        servicePrice:{
+            type: Sequelize.INTEGER,
+            allowNull: false
         }
     })
     

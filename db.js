@@ -1,6 +1,7 @@
 require("dotenv").config()
 
 const Sequelize = require("sequelize")
+const Customer = require("./models/Customer")
 const sequelize = new Sequelize(process.env.DB_BASE, process.env.DB_USER, process.env.DB_PASS, {
     host: process.env.DB_HOST,
     dialect: "mariadb",
@@ -17,7 +18,9 @@ db.sequelize = sequelize
 db.customers = require("./models/Customer")(sequelize, Sequelize)
 db.services = require("./models/Service")(sequelize, Sequelize)
 db.barbers = require("./models/Barber")(sequelize, Sequelize)
-db.bookings = require("./models/Booking")(sequelize, Sequelize)
+db.bookings = require("./models/Booking")(sequelize, Sequelize, db.customers, db.services, db.barbers)
+/*db.barberSevice = require("./models/BarberService")(sequelize, Sequelize, db.barbers, db.services)*/
+
 
 
 async function Sync() {
