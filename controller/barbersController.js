@@ -30,10 +30,6 @@ exports.createNew = async (req, res) =>{
     }
 }
 
-/*exports.createNew = async (req, res) =>{   
-    res.send({"message": "Not implemented yet"})
-}*/
-
 exports.getById = async (req, res) =>{
     const barber = await Barbers.findByPk(req.params.id_barber)
     if(barber === null){

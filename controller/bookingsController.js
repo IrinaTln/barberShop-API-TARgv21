@@ -1,5 +1,8 @@
 const { db }= require('../db');
-const Bookings = db.bookings
+const Bookings = db.bookings;
+const Customer = db.customers;
+const Service = db.services;
+const Barber = db.barbers;
 
 /*exports.getAll = async (req, res) =>{
 const bookings = await Bookings.findAll({attributes:["id_booking", "bookingTime", "id_customer", "id_service", "id_barber"]})
