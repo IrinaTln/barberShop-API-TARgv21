@@ -27,7 +27,7 @@ exports.createNew = async (req, res) =>{
             res.status(400).send({"error": error.errors.map((item)=> item.message)})        
         }else{
             console.log("CustomersCreate", error) 
-            res.status(500).send({"error": "Somtheng went wrong on our side. Sorry :("})          
+            res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})          
         }
         return
     }

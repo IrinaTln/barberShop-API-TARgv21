@@ -34,6 +34,41 @@ paths:
                     description: Returns the list of services
             summary: Get the list of all services
             description: Reterns the list of all services in API
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Service'
+                required: true
+            tags:
+                - services
+            responses:
+                '201':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                            examples:
+                                Location of created service:
+                                    value: 'https://server:port/services/{id_service}'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Service'
+                    description: Service was created.
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                Invalid data:
+                                    value:
+                                        error: 'Invalid input, missing required parametrs'
+                    description: Invalid data supplied.
+            summary: Add new service
+            description: Add new service with all details
     /customers:
         get:
             tags:
@@ -188,20 +223,85 @@ paths:
                     content:
                         application/json:
                             schema:
-                                type: array
-                                items:
-                                    type: string
+                                $ref: '#/components/schemas/Booking'
                             examples:
                                 bookings:
                                     value:
                                         -
                                             id_booking: 1
-                                            bookingTime: '2023-01-31T10:00:00.000Z'
+                                            bookingTime: '2023-02-03T10:00:00.000Z'
                                             id_customer: 1
-                                            id_service: 1
+                                            id_service: 2
+                                            id_barber: 1
+                                            Customer:
+                                                id_customer: 1
+                                                firstName: John
+                                                lastName: Cameron
+                                                phone: '+372456213'
+                                                mail: cameron@gmail.com
+                                            Service:
+                                                id_service: 2
+                                                serviceName: Beard trimming
+                                                servicePrice: 20
+                                            Barber:
+                                                id_barber: 1
+                                                barberName: Marko Tasane
+                                        -
+                                            id_booking: 2
+                                            bookingTime: '2023-01-24T10:00:00.000Z'
+                                            id_customer: 2
+                                            id_service: 3
                                             id_barber: 2
+                                            Customer:
+                                                id_customer: 2
+                                                firstName: Gosha
+                                                lastName: Kutsenko
+                                                phone: '+3725651234'
+                                                mail: kutsenko@gmail.com
+                                            Service:
+                                                id_service: 3
+                                                serviceName: Hair cut + beard trimming
+                                                servicePrice: 45
+                                            Barber:
+                                                id_barber: 2
+                                                barberName: Pamela Anderson
                     description: Returns te list of all bokings in API
             summary: Get the list of all bookings
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Booking'
+                required: true
+            tags:
+                - bookings
+            responses:
+                '200':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                            examples:
+                                Location of created booking:
+                                    value: 'https://server:port/bookings/{id_booking}'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Booking'
+                    description: Booking was added.
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                Invalid data:
+                                    value:
+                                        error: 'Invalid input, missing required parametrs'
+                    description: Invalid data supplied
+            summary: Add new booking
+            description: Add new booking with all details
     '/bookings/{id}':
         summary: Get booking details
         description: Get all the details of the booking with given id.
@@ -219,11 +319,24 @@ paths:
                             examples:
                                 Booking details:
                                     value:
-                                        id_booking: 2
-                                        bookingTime: '2023-01-24T10:00:00.000Z'
-                                        id_customer: 2
-                                        id_service: 3
-                                        id_barber: 2
+                                        id_booking: 1
+                                        bookingTime: '2023-02-03T10:00:00.000Z'
+                                        id_customer: 1
+                                        id_service: 2
+                                        id_barber: 1
+                                        Customer:
+                                            id_customer: 1
+                                            firstName: John
+                                            lastName: Cameron
+                                            phone: '+372456213'
+                                            mail: cameron@gmail.com
+                                        Service:
+                                            id_service: 2
+                                            serviceName: Beard trimming
+                                            servicePrice: 20
+                                        Barber:
+                                            id_barber: 1
+                                            barberName: Marko Tasane
                     description: Booking was found and the details are returned.
                 '404':
                     content:
@@ -274,6 +387,41 @@ paths:
                                             barberName: Pamela Anderson
                     description: Returns the list of all barbers in API
             summary: Get the all list of barbers
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Barber'
+                required: true
+            tags:
+                - barbers
+            responses:
+                '201':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                            examples:
+                                Location of created barber:
+                                    value: 'https://server:port/barbers/{id_barber}'
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Barber'
+                    description: Barber was added.
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                Invalid data:
+                                    value:
+                                        error: 'Invalid input, missing required parametrs'
+                    description: Invalid data supplied.
+            summary: Add new barber
+            description: Add new barber with all details
     '/barbers/{id}/':
         summary: Get barber details
         description: Get all the details of the barber with given id.

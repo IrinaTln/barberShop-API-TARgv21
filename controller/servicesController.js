@@ -17,17 +17,25 @@ exports.createNew = async (req, res) =>{
         service = await Services.create(req.body, 
             {
                 logging:console.log, 
-                fields: ["serviceName"]
+                fields: ["serviceName", "servicePrice"]
             })
     } catch (error){
         if (error instanceof db.Sequelize.ValidationError){
             res.status(400).send({"error": error.errors.map((item)=> item.message)})        
         }else{
             console.log("ServicesCreate", error) 
-            res.status(500).send({"error": "Somtheng went wrong on our side. Sorry :("})          
+            res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})          
         }
         return
     }
+
+    if(service===null){
+        res.status(400).send({"error": "Invalid input, missing required params"})
+        return
+    }
+    res.status(201)
+    .location(`${getBaseUrl(req)}/services/${service.id_service}`)
+    .json(service)   
 }
 
 exports.getById = async (req, res) =>{
