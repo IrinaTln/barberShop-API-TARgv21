@@ -3,6 +3,7 @@ const Bookings = db.bookings;
 const Customer = db.customers;
 const Service = db.services;
 const Barber = db.barbers;
+const { getBaseUrl } = require('./helpers');
 
 /*exports.getAll = async (req, res) =>{
 const bookings = await Bookings.findAll({attributes:["id_booking", "bookingTime", "id_customer", "id_service", "id_barber"]})
@@ -73,9 +74,40 @@ exports.getById = async (req, res) =>{
 }
 
 exports.updateById = async (req, res) =>{
-    res.send({"message": "Not implemented yet"})
+  let booking = await Bookings.findByPk(req.params.id_booking, {logging: console.Log})
+  if(booking === null){
+      res.status(404).send({"error": "No booking found"})
+      return
+  } 
+  try{
+    booking = await booking.update(req.body, {logging:console.log})
+  } catch (error){
+      if (error instanceof db.Sequelize.ValidationError){
+          res.status(400).send({"error": error.errors.map((item)=> item.message)})        
+      }else{
+          console.log("BookingsUpdate", error) 
+          res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})          
+      }
+      return
+  }
+  res.status(201)
+  .location(`${getBaseUrl(req)}/bookings/${booking.id_booking}`)
+  .json(booking)
 }
 
 exports.deleteById = async (req, res) =>{
-    res.send({"message": "Not implemented yet"})
+  const booking = await Bookings.findByPk(req.params.id_booking, {logging: console.Log})
+  if(booking === null){
+      res.status(404).send({"error": "No booking found"})
+      return
+  } 
+  try{
+      const deleted = await booking.destroy()
+  }
+  catch (error){
+      console.log("BookingsDelete", error)
+      res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})
+      return
+  }
+  res.status(204).send()
 }

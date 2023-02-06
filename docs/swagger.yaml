@@ -252,6 +252,48 @@ paths:
                     description: Service with given id does not exist.
             summary: Get details of the service given ID
             description: Return all the details of the service.
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Service'
+                required: true
+            tags:
+                - services
+            responses:
+                '200':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                    description: Service was updated.
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Missing required fields.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Service not found.
+            summary: Update service
+        delete:
+            tags:
+                - services
+            responses:
+                '204':
+                    description: Service was deleted.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Service not found.
+            summary: Service deleted
         parameters:
             -
                 name: id
@@ -396,6 +438,52 @@ paths:
                     description: Booking with given id does not exist.
             summary: Get details of the booking given ID
             description: Return all the details of the booking.
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Booking'
+                required: true
+            tags:
+                - bookings
+            responses:
+                '200':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Booking'
+                    description: Booking was updated.
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Missing required fields.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Booking not found.
+            summary: Update booking
+        delete:
+            tags:
+                - bookings
+            responses:
+                '204':
+                    description: Booking deleted.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Booking not found.
+            summary: Delete booking
         parameters:
             -
                 name: id
@@ -500,6 +588,52 @@ paths:
                     description: Barber with given id does not exist
             summary: Get details of the barber given ID
             description: Return all the details of the barber.
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Barber'
+                required: true
+            tags:
+                - barbers
+            responses:
+                '200':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Barber'
+                    description: Barber was updated.
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Missing required fields.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Barber not found.
+            summary: Updated barber
+        delete:
+            tags:
+                - barbers
+            responses:
+                '204':
+                    description: Barber was deleted.
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Barber not found.
+            summary: Delete barber
         parameters:
             -
                 name: id
