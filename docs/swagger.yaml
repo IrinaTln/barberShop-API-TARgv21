@@ -165,6 +165,52 @@ paths:
                     description: Customer with given id does not exist.
             summary: Get details of the customer given ID
             description: Return all the details of the customer.
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Customer'
+                required: true
+            tags:
+                - customers
+            responses:
+                '200':
+                    headers:
+                        Location:
+                            schema:
+                                type: string
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                    description: Customer was updated.
+                '400':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Missing required fields
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Customer not found
+            summary: Update customer
+        delete:
+            tags:
+                - customers
+            responses:
+                '204':
+                    description: Customer deleted
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                    description: Customer not found
+            summary: Delete customer
         parameters:
             -
                 name: id

@@ -51,9 +51,33 @@ exports.getById = async (req, res) =>{
 }
 
 exports.updateById = async (req, res) =>{
-    res.send({"message": "Not implemented yet"})
+    let customer = await Customers.findByPk(req.params.id_customer, {logging: console.Log})
+    if(customer === null){
+        res.status(404).send({"error": "No customer found"})
+        return
+    } 
+    try{
+        customer = await customer.update(req.body, {logging:console.log})
+    } catch (error){
+        if (error instanceof db.Sequelize.ValidationError){
+            res.status(400).send({"error": error.errors.map((item)=> item.message)})        
+        }else{
+            console.log("CustomersUpdate", error) 
+            res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})          
+        }
+        return
+    }
+    res.status(201)
+    .location(`${getBaseUrl(req)}/customers/${customer.id_customer}`)
+    .json(customer)
 }
 
 exports.deleteById = async (req, res) =>{
+    const customer = await Customers.findByPk(req.params.id_customer, {logging: console.Log})
+    if(customer === null){
+        res.status(404).send({"error": "No customer found"})
+    } else {
+        
+    }
     res.send({"message": "Not implemented yet"})
 }
