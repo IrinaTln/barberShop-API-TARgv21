@@ -76,8 +76,15 @@ exports.deleteById = async (req, res) =>{
     const customer = await Customers.findByPk(req.params.id_customer, {logging: console.Log})
     if(customer === null){
         res.status(404).send({"error": "No customer found"})
-    } else {
-        
+        return
+    } 
+    try{
+        const deleted = await customer.destroy()
     }
-    res.send({"message": "Not implemented yet"})
+    catch (error){
+        console.log("CustomersDelete", error)
+        res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})
+        return
+    }
+    res.status(204).send()
 }
