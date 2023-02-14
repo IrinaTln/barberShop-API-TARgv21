@@ -2,16 +2,7 @@ openapi: 3.0.2
 info:
     title: barberShop-API-TARgv21
     version: 1.0.0
-    description: >-
-        ### This is a Swagger UI for our BarberShop API  \n\n### Error handling\nErrors are presented using
-        the HTTP status codes 400-599. The response include a more detailed explanation about the error in the
-        body.\n\n```\n{\n  \"error\": \"Cleartext explanation of the error that occurred\"\n}\n```\n\n###
-        Generic API errors\nThese error responses can be returned by any of the described endpoints.\n\n| HTTP
-        status  |  Description |\n|---|---|\n| 400| Bad input parameters or invalid request. More information
-        can be found in the response body.\n| 401| The consumer does not have access to the requested resource
-        or the provided token is not valid.\n| 404| The requested resource can not be found or the user does
-        not have access to the resource.\n| 5XX| A server error has occurred while processing the request."
-           
+    description: '### This is a Swagger UI for our BarberShop API '
 paths:
     /services:
         get:
@@ -86,12 +77,10 @@ paths:
                                     value:
                                         -
                                             id_customer: 1
-                                            firstName: 'James '
-                                            lastName: Cameron
+                                            customerName: Gosha Kutsenko
                                         -
                                             id_customer: 2
-                                            firstName: John
-                                            lastName: Travolta
+                                            customerName: John Cameron
                     description: Returns the list of all customers
             summary: Get the list of all customers
             description: Returns the list of all customers in API
@@ -317,42 +306,42 @@ paths:
                                     value:
                                         -
                                             id_booking: 1
-                                            bookingTime: '2023-02-03T10:00:00.000Z'
+                                            bookingDate: '2023-02-15'
+                                            bookingTime: '11:00:00'
                                             id_customer: 1
-                                            id_service: 2
-                                            id_barber: 1
-                                            Customer:
-                                                id_customer: 1
-                                                firstName: John
-                                                lastName: Cameron
-                                                phone: '+372456213'
-                                                mail: cameron@gmail.com
-                                            Service:
-                                                id_service: 2
-                                                serviceName: Beard trimming
-                                                servicePrice: 20
-                                            Barber:
-                                                id_barber: 1
-                                                barberName: Marko Tasane
-                                        -
-                                            id_booking: 2
-                                            bookingTime: '2023-01-24T10:00:00.000Z'
-                                            id_customer: 2
-                                            id_service: 3
+                                            id_service: 1
                                             id_barber: 2
                                             Customer:
-                                                id_customer: 2
-                                                firstName: Gosha
-                                                lastName: Kutsenko
-                                                phone: '+3725651234'
-                                                mail: kutsenko@gmail.com
+                                                id_customer: 1
+                                                customerName: Gosha Kutsenko
+                                                phone: '+37256456789'
+                                                mail: gosha@yandex.ru
                                             Service:
-                                                id_service: 3
-                                                serviceName: Hair cut + beard trimming
-                                                servicePrice: 45
+                                                id_service: 1
+                                                serviceName: Hair cut
+                                                servicePrice: 25
                                             Barber:
                                                 id_barber: 2
                                                 barberName: Pamela Anderson
+                                        -
+                                            id_booking: 2
+                                            bookingDate: '2023-02-20'
+                                            bookingTime: '10:00:00'
+                                            id_customer: 2
+                                            id_service: 4
+                                            id_barber: 1
+                                            Customer:
+                                                id_customer: 2
+                                                customerName: John Cameron
+                                                phone: '+37255123456'
+                                                mail: cameron@gmail.com
+                                            Service:
+                                                id_service: 4
+                                                serviceName: Mancure
+                                                servicePrice: 40
+                                            Barber:
+                                                id_barber: 1
+                                                barberName: Marko Tasane
                     description: Returns te list of all bokings in API
             summary: Get the list of all bookings
         post:
@@ -365,7 +354,7 @@ paths:
             tags:
                 - bookings
             responses:
-                '200':
+                '201':
                     headers:
                         Location:
                             schema:
@@ -377,7 +366,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Booking'
-                    description: Booking was added.
+                    description: Booking was added
                 '400':
                     content:
                         application/json:
@@ -385,9 +374,17 @@ paths:
                                 $ref: '#/components/schemas/Error'
                             examples:
                                 Invalid data:
-                                    value:
-                                        error: 'Invalid input, missing required parametrs'
+                                    value: "\t{\"error\":\"Invalid input, missing required parametrs\"}"
                     description: Invalid data supplied
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'ServerError:':
+                                    value: ' error:''Something went wrong on our side. Sorry :('''
+                    description: Server messed up
             summary: Add new booking
             description: Add new booking with all details
     '/bookings/{id}':
@@ -483,6 +480,15 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                     description: Booking not found.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'ServerError:':
+                                    value: ' error:''Something went wrong on our side. Sorry :('''
+                    description: Server messed up
             summary: Delete booking
         parameters:
             -
@@ -717,20 +723,17 @@ components:
         Booking:
             description: Booking details
             required:
-                - bookingTime
                 - id_customer
                 - id_service
                 - id_barber
+                - bookingDate
+                - bookingTime
             type: object
             properties:
                 id_booking:
                     format: int32
                     description: ''
                     type: integer
-                bookingTime:
-                    format: date-time
-                    description: ''
-                    type: string
                 id_customer:
                     format: int32
                     description: ''
@@ -743,9 +746,16 @@ components:
                     format: int32
                     description: ''
                     type: integer
+                bookingDate:
+                    description: ''
+                    type: integer
+                bookingTime:
+                    description: ''
+                    type: integer
             example:
                 id_booking: 2
-                bookingTime: '2023-01-24T10:00:00.000Z'
+                bookingDate: '2023-01-24'
+                bookingTime: '10:00:00'
                 id_customer: 2
                 id_service: 3
                 id_barber: 2

@@ -5,7 +5,7 @@ const { getBaseUrl } = require('./helpers');
 const Customers =db.customers
 
 exports.getAll = async (req, res) =>{
-    const customers = await Customers.findAll({attributes: ["id_customer", "firstName", "lastName"]})
+    const customers = await Customers.findAll({attributes: ["id_customer", "customerName"]})
     if(customers.length === 0){
         res.send({"message": "No customers found"})
     } else {
@@ -20,7 +20,7 @@ exports.createNew = async (req, res) =>{
         customer = await Customers.create(req.body, 
             {
                 logging:console.log, 
-                fields: ["firstName", "lastName", "phone", "mail"]
+                fields: ["customerName", "phone", "mail"]
             })
     } catch (error){
         if (error instanceof db.Sequelize.ValidationError){
@@ -67,7 +67,7 @@ exports.updateById = async (req, res) =>{
         }
         return
     }
-    res.status(201)
+    res.status(200)
     .location(`${getBaseUrl(req)}/customers/${customer.id_customer}`)
     .json(customer)
 }

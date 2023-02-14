@@ -65,7 +65,7 @@ exports.updateById = async (req, res) =>{
         }
         return
     }
-    res.status(201)
+    res.status(200)
     .location(`${getBaseUrl(req)}/services/${service.id_service}`)
     .json(service)
 }

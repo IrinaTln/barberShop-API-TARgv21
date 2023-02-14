@@ -14,5 +14,5 @@ bapberShop-API-TARgv21 an application that stores data about client (name, conta
 4. Run the command: npm dotenv
 5. Install node: npm i
 6. Create file .env with DB_NAME, DB_PASS, DB_PORT, DB_HOST and DB_USER
-7. Run the project: node .
+7. Run the project: npm start
 

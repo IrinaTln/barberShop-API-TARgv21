@@ -5,8 +5,12 @@ module.exports = (sequelize, Sequelize, Customer, Service, Barber) => {
             primaryKey: true,
             autoIncrement: true
         },
+        bookingDate: {
+            type: Sequelize.DataTypes.DATEONLY,
+            allowNull: false
+        },
         bookingTime: {
-            type: Sequelize.DATE,
+            type: Sequelize.DataTypes.TIME,
             allowNull: false
         },
         id_customer: {
