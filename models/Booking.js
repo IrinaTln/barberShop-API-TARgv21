@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, Sequelize, Customer, Service, Barber) => {
     const Booking = sequelize.define("booking", {
         id_booking: {

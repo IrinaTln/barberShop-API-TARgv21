@@ -1,3 +1,5 @@
+const Booking = require("./Booking")
+
 module.exports = (sequelize, Sequelize) => {
     const Barber = sequelize.define("barber", {
         id_barber: {

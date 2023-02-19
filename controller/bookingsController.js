@@ -22,22 +22,6 @@ exports.getAll = async (req, res) => {
   res.send(sqlResult)
 }
 
-
-/*exports.getAll = async (req, res) => {
-    try {
-      const bookings = await Bookings.findAll({
-        include: [
-          { model: Customer, as: 'Customer'},
-          { model: Service, as: 'Service'},         
-          { model: Barber, as: 'Barber'},
-        ],
-      });
-      res.send(JSON.stringify(bookings));
-    } catch (error) {
-      res.status(500).send({"message": "Ira, there is an error"});
-    }
-  }; */
-
   exports.createNew = async (req, res) =>{
     let booking
     try{
@@ -75,6 +59,25 @@ exports.getById = async (req, res) =>{
     } else {
         res.send(booking)
     }
+}
+
+exports.getBooktedTime = async (req, res) =>{
+  const booking = await Bookings.findByPk(req.params.id_booking, {
+    include: [     
+      { model: Barber, as: 'Barber'},
+    ],
+  })
+  if(booking === null){
+      res.status(404).send({"error": "No booking found"})
+  } else {
+      const sql = `SELECT bookings.bookingDate, 
+                  bookings.bookingTime, barbers.barberName
+                  FROM bookings
+                  JOIN barbers ON bookings.id_barber = barbers.id_barber
+                  WHERE barbers.id_barber = ${booking};`
+const sqlResult = await db.sequelize.query(sql, { type: QueryTypes.SELECT })
+      res.send(booking)
+  }
 }
 
 

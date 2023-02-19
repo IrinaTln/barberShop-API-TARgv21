@@ -245,9 +245,11 @@ paths:
                             examples:
                                 Service details:
                                     value:
-                                        id_service: 2
-                                        serviceName: Beard trimming
-                                        servicePrice: 20
+                                        bookingDate: '2023-02-20'
+                                        bookingTime: '10:00:00'
+                                        serviceName: Hair cut + beard trimming
+                                        servicePrice: 45
+                                        customerName: Gosha Kutsenko
                     description: Service was found and the details are returned.
                 '404':
                     content:
@@ -636,8 +638,18 @@ paths:
                             examples:
                                 Full detail of a given barber.:
                                     value:
-                                        id_barber: 3
-                                        barberName: John Travolte
+                                        -
+                                            bookingDate: '2023-02-17'
+                                            bookingTime: '12:00:00'
+                                            barberName: Pamela Anderson
+                                        -
+                                            bookingDate: '2023-02-22'
+                                            bookingTime: '12:00:00'
+                                            barberName: Pamela Anderson
+                                        -
+                                            bookingDate: '2023-01-24'
+                                            bookingTime: '10:00:00'
+                                            barberName: Pamela Anderson
                     description: Barber was found and the details are returned
                 '404':
                     content:
@@ -647,7 +659,7 @@ paths:
                             examples:
                                 Not Found:
                                     value:
-                                        error: Barber with given id \w+ was not found.
+                                        error: Barber with given id was not found.
                     description: Barber with given id does not exist
             summary: Get details of the barber given ID
             description: Return all the details of the barber.
