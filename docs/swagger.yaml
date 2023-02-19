@@ -77,10 +77,12 @@ paths:
                                     value:
                                         -
                                             id_customer: 1
-                                            customerName: Gosha Kutsenko
+                                            firstName: 'James '
+                                            lastName: Cameron
                                         -
                                             id_customer: 2
-                                            customerName: John Cameron
+                                            firstName: John
+                                            lastName: Travolta
                     description: Returns the list of all customers
             summary: Get the list of all customers
             description: Returns the list of all customers in API
@@ -186,6 +188,15 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                     description: Customer not found
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'Error message:':
+                                    value: '"Something went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Update customer
         delete:
             tags:
@@ -199,6 +210,15 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                     description: Customer not found
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'Error message:':
+                                    value: '"Something went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Delete customer
         parameters:
             -
@@ -269,6 +289,15 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                     description: Service not found.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'Error message:':
+                                    value: '"Something went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Update service
         delete:
             tags:
@@ -282,6 +311,15 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                     description: Service not found.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'Error message:':
+                                    value: '"Something went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Service deleted
         parameters:
             -
@@ -306,42 +344,42 @@ paths:
                                     value:
                                         -
                                             id_booking: 1
-                                            bookingDate: '2023-02-15'
-                                            bookingTime: '11:00:00'
+                                            bookingTime: '2023-02-03T10:00:00.000Z'
                                             id_customer: 1
-                                            id_service: 1
-                                            id_barber: 2
-                                            Customer:
-                                                id_customer: 1
-                                                customerName: Gosha Kutsenko
-                                                phone: '+37256456789'
-                                                mail: gosha@yandex.ru
-                                            Service:
-                                                id_service: 1
-                                                serviceName: Hair cut
-                                                servicePrice: 25
-                                            Barber:
-                                                id_barber: 2
-                                                barberName: Pamela Anderson
-                                        -
-                                            id_booking: 2
-                                            bookingDate: '2023-02-20'
-                                            bookingTime: '10:00:00'
-                                            id_customer: 2
-                                            id_service: 4
+                                            id_service: 2
                                             id_barber: 1
                                             Customer:
-                                                id_customer: 2
-                                                customerName: John Cameron
-                                                phone: '+37255123456'
+                                                id_customer: 1
+                                                firstName: John
+                                                lastName: Cameron
+                                                phone: '+372456213'
                                                 mail: cameron@gmail.com
                                             Service:
-                                                id_service: 4
-                                                serviceName: Mancure
-                                                servicePrice: 40
+                                                id_service: 2
+                                                serviceName: Beard trimming
+                                                servicePrice: 20
                                             Barber:
                                                 id_barber: 1
                                                 barberName: Marko Tasane
+                                        -
+                                            id_booking: 2
+                                            bookingTime: '2023-01-24T10:00:00.000Z'
+                                            id_customer: 2
+                                            id_service: 3
+                                            id_barber: 2
+                                            Customer:
+                                                id_customer: 2
+                                                firstName: Gosha
+                                                lastName: Kutsenko
+                                                phone: '+3725651234'
+                                                mail: kutsenko@gmail.com
+                                            Service:
+                                                id_service: 3
+                                                serviceName: Hair cut + beard trimming
+                                                servicePrice: 45
+                                            Barber:
+                                                id_barber: 2
+                                                barberName: Pamela Anderson
                     description: Returns te list of all bokings in API
             summary: Get the list of all bookings
         post:
@@ -356,7 +394,7 @@ paths:
             responses:
                 '201':
                     headers:
-                        Location:
+                        'Location:':
                             schema:
                                 type: string
                             examples:
@@ -366,7 +404,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Booking'
-                    description: Booking was added
+                    description: Booking was added.
                 '400':
                     content:
                         application/json:
@@ -374,7 +412,8 @@ paths:
                                 $ref: '#/components/schemas/Error'
                             examples:
                                 Invalid data:
-                                    value: "\t{\"error\":\"Invalid input, missing required parametrs\"}"
+                                    value:
+                                        error: 'Invalid input, missing required parametrs'
                     description: Invalid data supplied
                 '500':
                     content:
@@ -383,8 +422,8 @@ paths:
                                 $ref: '#/components/schemas/Error'
                             examples:
                                 'ServerError:':
-                                    value: ' error:''Something went wrong on our side. Sorry :('''
-                    description: Server messed up
+                                    value: "\"Somthing went wrong on our side. Sorry :(\"\r\n"
+                    description: ServerError
             summary: Add new booking
             description: Add new booking with all details
     '/bookings/{id}':
@@ -467,6 +506,15 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                     description: Booking not found.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'Error message:':
+                                    value: '"Something went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Update booking
         delete:
             tags:
@@ -486,9 +534,9 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                             examples:
-                                'ServerError:':
-                                    value: ' error:''Something went wrong on our side. Sorry :('''
-                    description: Server messed up
+                                'Error message:':
+                                    value: '"Something went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Delete booking
         parameters:
             -
@@ -560,6 +608,15 @@ paths:
                                     value:
                                         error: 'Invalid input, missing required parametrs'
                     description: Invalid data supplied.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'Error:':
+                                    value: '"Somthing went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Add new barber
             description: Add new barber with all details
     '/barbers/{id}/':
@@ -626,6 +683,15 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                     description: Barber not found.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'Error message:':
+                                    value: '"Something went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Updated barber
         delete:
             tags:
@@ -639,6 +705,15 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
                     description: Barber not found.
+                '500':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                            examples:
+                                'Error message:':
+                                    value: '"Something went wrong on our side. Sorry :("'
+                    description: Server error
             summary: Delete barber
         parameters:
             -
@@ -723,17 +798,21 @@ components:
         Booking:
             description: Booking details
             required:
+                - bookingTime
                 - id_customer
                 - id_service
                 - id_barber
                 - bookingDate
-                - bookingTime
             type: object
             properties:
                 id_booking:
                     format: int32
                     description: ''
                     type: integer
+                bookingTime:
+                    format: date-time
+                    description: ''
+                    type: string
                 id_customer:
                     format: int32
                     description: ''
@@ -747,11 +826,9 @@ components:
                     description: ''
                     type: integer
                 bookingDate:
+                    format: date
                     description: ''
-                    type: integer
-                bookingTime:
-                    description: ''
-                    type: integer
+                    type: string
             example:
                 id_booking: 2
                 bookingDate: '2023-01-24'

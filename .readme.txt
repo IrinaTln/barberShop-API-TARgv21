@@ -1,0 +1,48 @@
+//SQL query to get bookted time by id_barber
+
+Select bookingDate, bookingTime, id_barber
+From bookings
+Where id_barber=1 and bookingDate > (NOW() - INTERVAL 1 WEEK)
+group by bookingDate;
+
+
+SELECT barbers.barberName, bookings.id_booking, bookings.bookingDate, 
+			  bookings.bookingTime, services.serviceName
+              FROM barbers
+              JOIN bookings ON barbers.id_barber = bookings.id_booking
+              JOIN services ON barbers.id_barber = services.id_service
+			  group by bookings.bookingDate;
+
+
+SELECT barbers.barberName, bookings.bookingDate, 
+			  bookings.bookingTime, services.serviceName
+              FROM barbers
+              JOIN bookings ON barbers.id_barber = bookings.id_booking
+              JOIN services ON barbers.id_barber = services.id_service
+              Where barbers.id_barber=bookings.bookingDate
+			  group by bookings.bookingDate;
+
+
+SELECT id_booking, bookingDate, bookingTime, barbers.barberName
+FROM bookings
+LEFT JOIN barbers ON id_booking = barbers.id_barber
+group by bookingDate;
+
+SELECT id_booking, bookingDate, bookingTime, barbers.barberName, services.serviceName
+FROM bookings
+LEFT JOIN barbers ON id_booking = barbers.id_barber
+LEFT JOIN services ON id_booking=services.id_service
+
+
+SELECT bookings.id_booking, bookings.bookingDate, 
+bookings.bookingTime, services.serviceName, 
+barbers.barberName 
+FROM bookings 
+JOIN services ON bookings.id_service = services.id_service 
+JOIN barbers ON bookings.id_barber = barbers.id_barber 
+ORDER BY `bookings`.`bookingTime` DESC
+
+SELECT bookings.bookingDate, 
+              bookings.bookingTime, barbers.barberName
+              FROM bookings
+              JOIN barbers ON bookings.id_barber = barbers.id_barber

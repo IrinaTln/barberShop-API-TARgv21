@@ -4,17 +4,26 @@ const Customer = db.customers;
 const Service = db.services;
 const Barber = db.barbers;
 const { getBaseUrl } = require('./helpers');
-
-/*exports.getAll = async (req, res) =>{
-const bookings = await Bookings.findAll({attributes:["id_booking", "bookingTime", "id_customer", "id_service", "id_barber"]})
-if (bookings.length == 0){
-    res.send({"message":"No bookings exist"})
-} else {
-    res.send(JSON.stringify(bookings))
-    }
-}*/
+const QueryTypes = db.Sequelize.QueryTypes
 
 exports.getAll = async (req, res) => {
+  const sql = `SELECT bookings.id_booking, bookings.bookingDate, 
+              bookings.bookingTime, customers.customerName, customers.phone, 
+              customers.mail, services.serviceName, barbers.barberName
+              FROM bookings
+              JOIN customers ON bookings.id_customer = customers.id_customer
+              JOIN services ON bookings.id_service = services.id_service
+              JOIN barbers ON bookings.id_barber = barbers.id_barber;`
+  const sqlResult = await db.sequelize.query(sql, { type: QueryTypes.SELECT })
+  if (sqlResult.length === 0) {
+    res.send({ error: "No booking stored." })
+    return
+  }
+  res.send(sqlResult)
+}
+
+
+/*exports.getAll = async (req, res) => {
     try {
       const bookings = await Bookings.findAll({
         include: [
@@ -27,12 +36,10 @@ exports.getAll = async (req, res) => {
     } catch (error) {
       res.status(500).send({"message": "Ira, there is an error"});
     }
-  };
-  
+  }; */
 
   exports.createNew = async (req, res) =>{
     let booking
-
     try{
       booking = await Bookings.create(req.body, 
             {
@@ -43,19 +50,31 @@ exports.getAll = async (req, res) => {
         if (error instanceof db.Sequelize.ValidationError){
             res.status(400).send({"error": error.errors.map((item)=> item.message)})        
         }else{
-            console.log("BarbersCreate", error) 
-            res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})          
+            console.log("BookingsCreate", error) 
+            res.status(500).send({"error": "Something went wrong on our side. Sorry :("})          
         }
         return
     }
-    if(booking===null){
-        res.status(400).send({"error": "Invalid input, missing required params"})
-        return
+    res.status(201)
+    .location(`${getBaseUrl(req)}/bookings/${booking.id_booking}`)
+    .json(booking)   
+  }
+ 
+  /*exports.createNew = async (req, res) =>{
+        const sqlCreate = `INSERT INTO bookings 
+                          (bookingDate, 
+                          bookingTime, id_customer, id_service, 
+                          id_barber) VALUES ('?', 
+                          '?', '?', '?', '?');`
+        const booking = await db.sequelize.query(sqlCreate, { type: QueryTypes.INSERT })
+        if (booking===null){
+          res.send({ error: "No booking stored." })
+          return     
     }
     res.status(201)
-    .location(`${getBaseUrl(req)}/customers/${booking.id_booking}`)
+    .location(`${getBaseUrl(req)}/bookings/${booking.id_booking}`)
     .json(booking)   
-}
+  }*/
 
 exports.getById = async (req, res) =>{
     const booking = await Bookings.findByPk(req.params.id_booking, {
@@ -72,6 +91,7 @@ exports.getById = async (req, res) =>{
     }
 }
 
+
 exports.updateById = async (req, res) =>{
   let booking = await Bookings.findByPk(req.params.id_booking, {logging: console.Log})
   if(booking === null){
@@ -85,7 +105,7 @@ exports.updateById = async (req, res) =>{
           res.status(400).send({"error": error.errors.map((item)=> item.message)})        
       }else{
           console.log("BookingsUpdate", error) 
-          res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})          
+          res.status(500).send({"error": "Something went wrong on our side. Sorry :("})          
       }
       return
   }
@@ -105,7 +125,7 @@ exports.deleteById = async (req, res) =>{
   }
   catch (error){
       console.log("BookingsDelete", error)
-      res.status(500).send({"error": "Somthing went wrong on our side. Sorry :("})
+      res.status(500).send({"error": "Something went wrong on our side. Sorry :("})
       return
   }
   res.status(204).send()

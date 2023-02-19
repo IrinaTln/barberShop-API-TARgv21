@@ -29,13 +29,12 @@ exports.createNew = async (req, res) =>{
         }
         return
     }
-
     if(barber===null){
         res.status(400).send({"error": "Invalid input, missing required params"})
         return
     }
     res.status(201)
-    .location(`${getBaseUrl(req)}/services/${barber.id_barber}`)
+    .location(`${getBaseUrl(req)}/barbers/${barber.id_barber}`)
     .json(barber)   
 }
 
