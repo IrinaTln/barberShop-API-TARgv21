@@ -49,7 +49,8 @@ exports.getAll = async (req, res) => {
     } catch (error){
         if (error instanceof db.Sequelize.ValidationError){
             res.status(400).send({"error": error.errors.map((item)=> item.message)})        
-        }else{
+        }
+        else{
             console.log("BookingsCreate", error) 
             res.status(500).send({"error": "Something went wrong on our side. Sorry :("})          
         }
@@ -60,21 +61,6 @@ exports.getAll = async (req, res) => {
     .json(booking)   
   }
  
-  /*exports.createNew = async (req, res) =>{
-        const sqlCreate = `INSERT INTO bookings 
-                          (bookingDate, 
-                          bookingTime, id_customer, id_service, 
-                          id_barber) VALUES ('?', 
-                          '?', '?', '?', '?');`
-        const booking = await db.sequelize.query(sqlCreate, { type: QueryTypes.INSERT })
-        if (booking===null){
-          res.send({ error: "No booking stored." })
-          return     
-    }
-    res.status(201)
-    .location(`${getBaseUrl(req)}/bookings/${booking.id_booking}`)
-    .json(booking)   
-  }*/
 
 exports.getById = async (req, res) =>{
     const booking = await Bookings.findByPk(req.params.id_booking, {
