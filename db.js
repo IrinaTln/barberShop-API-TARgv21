@@ -14,11 +14,10 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-db.customers = require("./models/Customer")(sequelize, Sequelize)
-db.services = require("./models/Service")(sequelize, Sequelize)
-db.barbers = require("./models/Barber")(sequelize, Sequelize)
+db.customers = require("./models/Customer")(sequelize, Sequelize, db.bookings, db.services, db.barbers)  
+db.services = require("./models/Service")(sequelize, Sequelize, db.bookings, db.customers)
+db.barbers = require("./models/Barber")(sequelize, Sequelize, db.bookings)
 db.bookings = require("./models/Booking")(sequelize, Sequelize, db.customers, db.services, db.barbers)
-/*db.barberBookings = require("./models/BarberBooking")(sequelize, Sequelize, db.bookings, db.barbers)*/
 
 
 

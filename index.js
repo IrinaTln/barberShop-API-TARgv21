@@ -12,7 +12,7 @@ const swaggerDocument = yamljs.load("./docs/swagger.yaml");
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json())
 const corsOptions = {
-    origin: "https://localhost:5173"
+    origin: "http://localhost:5173"
 }
 app.use(cors(corsOptions))
 require("./routes/app_routes")(app)

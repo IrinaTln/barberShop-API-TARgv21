@@ -1,5 +1,8 @@
 const { request } = require('express');
 const { db }= require('../db');
+const Services =db.services;
+const Bookings = db.bookings;
+const Barbers = db.barbers;
 const { getBaseUrl } = require('./helpers');
 
 const Customers =db.customers
@@ -40,15 +43,37 @@ exports.createNew = async (req, res) =>{
     .location(`${getBaseUrl(req)}/customers/${customer.id_customer}`)
     .json(customer)   
 }
+exports.getById = async (req, res) => {
+    const customer = await Customers.findByPk(req.params.id_customer, {
+      logging: console.log,
+      include: {
+        model: Bookings,
+        attributes: ["bookingDate", "bookingTime"],
+        where: { id_customer: req.params.id_customer},
+        include: { 
+            model: Services,
+            attributes: ["serviceName"]},
+            include: { 
+                model: Barbers,
+                attributes: ["barberName"]},
+        }
 
-exports.getById = async (req, res) =>{
+    })
+    if (customer === null) {
+      res.status(404).send({ error: "Customer not found" })
+    } else {
+      res.send(customer)
+    }
+  }
+
+/*exports.getById = async (req, res) =>{
     const customer = await Customers.findByPk(req.params.id_customer, {logging: console.Log})
         if(customer === null){
         res.status(404).send({"error": "No customer found"})
     } else {
         res.send(customer)
     }
-}
+}*/
 
 exports.updateById = async (req, res) =>{
     let customer = await Customers.findByPk(req.params.id_customer, {logging: console.Log})

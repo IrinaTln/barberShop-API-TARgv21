@@ -1,6 +1,4 @@
-const Booking = require("./Booking")
-
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, Sequelize, Booking) => {
     const Barber = sequelize.define("barber", {
         id_barber: {
             type: Sequelize.INTEGER,

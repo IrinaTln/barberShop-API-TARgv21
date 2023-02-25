@@ -1,6 +1,8 @@
 const { db }= require('../db');
+const Customer = require('../models/Customer');
 const Services =db.services;
 const Bookings = db.bookings;
+const Customers = db.customers;
 const { getBaseUrl } = require('./helpers');
 const QueryTypes = db.Sequelize.QueryTypes
 
@@ -40,7 +42,26 @@ exports.createNew = async (req, res) =>{
     .json(service)   
 }
 
-exports.getById = async (req,res)=>{
+exports.getById = async (req, res) => {
+    const service = await Services.findByPk(req.params.id_service, {
+      logging: console.log,
+      include: {
+        model: Bookings,
+        attributes: ["bookingDate", "bookingTime"],
+        where: { id_service: req.params.id_service},
+        include: { 
+            model: Customers,
+            attributes: ["customerName"]},
+      }
+    })
+    if (service === null) {
+      res.status(404).send({ error: "Service not found" })
+    } else {
+      res.send(service)
+    }
+  }
+
+/*exports.getById = async (req,res)=>{
     const sql = `SELECT bookings.bookingDate, 
                  bookings.bookingTime, services.serviceName, 
                  services.servicePrice, customers.customerName
@@ -58,7 +79,7 @@ exports.getById = async (req,res)=>{
         return
     }
     res.send(sqlResult)
-}
+}*/
 
 exports.updateById = async (req, res) =>{
     let service = await Services.findByPk(req.params.id_service, {logging: console.Log})

@@ -31,11 +31,15 @@ module.exports = (sequelize, Sequelize, Customer, Service, Barber) => {
         }
     })
 
-   
-    Booking.belongsTo(Customer, { foreignKey: 'id_customer', as: 'firstName' });
-    Booking.belongsTo(Service, { foreignKey: 'id_service', as: 'serviceName' }); 
-    Booking.belongsTo(Barber, { foreignKey: 'id_barber', as: 'barberName' });
-      
+    Customer.hasMany(Booking, {foreignKey: "id_customer"});
+    Booking.belongsTo(Customer, { foreignKey: 'id_customer'});
+
+    Service.hasMany(Booking, { foreignKey: 'id_service'});
+    Booking.belongsTo(Service, { foreignKey: 'id_service'});
+
+    Barber.hasMany(Booking, { foreignKey: 'id_barber'});
+    Booking.belongsTo(Barber, { foreignKey: 'id_barber'});
+    
      return Booking
 
 }

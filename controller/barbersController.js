@@ -37,10 +37,25 @@ exports.createNew = async (req, res) =>{
     res.status(201)
     .location(`${getBaseUrl(req)}/barbers/${barber.id_barber}`)
     .json(barber)   
-}
+} 
 
+exports.getById = async (req, res) => {
+    const barber = await Barbers.findByPk(req.params.id_barber, {
+      logging: console.log,
+      include: {
+        model: Bookings,
+        attributes: ["bookingDate", "bookingTime"],
+        where: { id_barber: req.params.id_barber}
+      }
+    })
+    if (barber === null) {
+      res.status(404).send({ error: "Barber not found" })
+    } else {
+      res.send(barber)
+    }
+  }
 
-exports.getById = async (req,res)=>{
+/*exports.getById = async (req,res)=>{
     const sql = `SELECT bookings.bookingDate, 
                 bookings.bookingTime, barbers.barberName
                 FROM bookings
@@ -56,8 +71,7 @@ exports.getById = async (req,res)=>{
         return
     }
     res.send(sqlResult)
-}
-
+}*/
 
 
 exports.updateById = async (req, res) =>{
