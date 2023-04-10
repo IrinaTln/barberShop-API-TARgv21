@@ -8,7 +8,7 @@ const { getBaseUrl } = require('./helpers');
 const Customers =db.customers
 
 exports.getAll = async (req, res) =>{
-    const customers = await Customers.findAll({attributes: ["id_customer", "customerName"]})
+    const customers = await Customers.findAll({attributes: ["id_customer", "customerName", "phone", "mail"]})
     if(customers.length === 0){
         res.send({"message": "No customers found"})
     } else {

@@ -7,7 +7,7 @@ const { getBaseUrl } = require('./helpers');
 const QueryTypes = db.Sequelize.QueryTypes
 
 exports.getAll = async (req, res) =>{
-const services = await Services.findAll({attributes:["id_service", "serviceName"]})
+const services = await Services.findAll({attributes:["id_service", "serviceName", "servicePrice"]})
 if (services.length == 0){
     res.send({"message":"No services exist"})
 } else {

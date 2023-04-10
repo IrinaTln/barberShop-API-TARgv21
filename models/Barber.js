@@ -7,7 +7,10 @@ module.exports = (sequelize, Sequelize, Booking) => {
         },
         barberName: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
         },
     })
 

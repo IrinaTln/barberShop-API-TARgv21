@@ -39,6 +39,15 @@ exports.createNew = async (req, res) =>{
     .json(barber)   
 } 
 
+/*exports.getById = async (req, res) =>{
+    const barber = await Barbers.findByPk(req.params.id_barber)
+    if(barber === null){
+        res.status(404).send({"error": "No barber found"})
+    } else {
+        res.send(barber)
+    }
+}*/
+
 exports.getById = async (req, res) => {
     const barber = await Barbers.findByPk(req.params.id_barber, {
       logging: console.log,
