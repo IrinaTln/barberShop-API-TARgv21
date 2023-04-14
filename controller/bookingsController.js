@@ -7,19 +7,42 @@ const { getBaseUrl } = require('./helpers');
 const QueryTypes = db.Sequelize.QueryTypes
 
 exports.getAll = async (req, res) => {
-  const sql = `SELECT bookings.id_booking, bookings.bookingDate, 
+  const booking = await Bookings.findAll({
+    attributes: [
+      "id_booking", 
+      "bookingDate", 
+      "bookingTime"
+    ],
+    include: [
+      { model: Customer,
+      attributes: [
+        "customerName",
+        "phone",
+        "mail"
+      ]},
+      { model: Service,
+      attributes: [
+        "serviceName"
+      ]},         
+      { model: Barber,
+      attributes: [
+        "barberName"
+      ]},
+    ],
+  })
+  /* const sql = `SELECT bookings.id_booking, bookings.bookingDate, 
               bookings.bookingTime, customers.customerName, customers.phone, 
               customers.mail, services.serviceName, barbers.barberName
               FROM bookings
               JOIN customers ON bookings.id_customer = customers.id_customer
               JOIN services ON bookings.id_service = services.id_service
               JOIN barbers ON bookings.id_barber = barbers.id_barber;`
-  const sqlResult = await db.sequelize.query(sql, { type: QueryTypes.SELECT })
-  if (sqlResult.length === 0) {
+  const sqlResult = await db.sequelize.query(sql, { type: QueryTypes.SELECT }) */
+  if (booking.length === 0) {
     res.send({ error: "No booking stored." })
     return
   }
-  res.send(sqlResult)
+  res.send(booking)
 }
 
   exports.createNew = async (req, res) =>{
@@ -49,9 +72,9 @@ exports.getAll = async (req, res) => {
 exports.getById = async (req, res) =>{
     const booking = await Bookings.findByPk(req.params.id_booking, {
       include: [
-        { model: Customer, as: 'Customer'},
-        { model: Service, as: 'Service'},         
-        { model: Barber, as: 'Barber'},
+        { model: Customer},
+        { model: Service},         
+        { model: Barber},
       ],
     })
     if(booking === null){

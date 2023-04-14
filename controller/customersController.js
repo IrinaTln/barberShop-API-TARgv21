@@ -44,23 +44,22 @@ exports.createNew = async (req, res) =>{
     .json(customer)   
 }
 exports.getById = async (req, res) => {
+    console.log("getById", req.params.id_customer)
     const customer = await Customers.findByPk(req.params.id_customer, {
       logging: console.log,
-      include: {
+    include: {
         model: Bookings,
         attributes: ["bookingDate", "bookingTime"],
-        where: { id_customer: req.params.id_customer},
-        include: { 
-            model: Services,
-            attributes: ["serviceName"]},
-            include: { 
+            include: [{ 
+                model: Services,
+                attributes: ["serviceName"]}, { 
                 model: Barbers,
                 attributes: ["barberName"]},
-        }
-
+            ]}
     })
     if (customer === null) {
-      res.status(404).send({ error: "Customer not found" })
+        console.log("getById", req.params.id_customer)
+      res.status(404).send({ error: "Customer not found" + req.params.id_customer })
     } else {
       res.send(customer)
     }
